@@ -1,6 +1,6 @@
-from unittest import TestCase
-import unittest
-from load_balancer import Task, Server, LoadBalancer
+from unittest import TestCase, main
+
+from load_balancer import LoadBalancer, Server, Task
 
 
 class TaskTests(TestCase):
@@ -269,4 +269,4 @@ class LoadBalancerTests(TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
