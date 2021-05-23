@@ -1,9 +1,9 @@
-## Balanceamento de carga
+# Balanceamento de carga
 
-# Requisitos:
+## Requisitos:
 
 - Python 3.9
-# Instruções para utilização (Linux/Mac):
+## Instruções para utilização (Linux/Mac):
 
 Abra seu terminal:
 
@@ -28,7 +28,7 @@ python main.py
 O Relatório será criado dentro do diretório load_balancer/files com o nome de output.txt
 
 
-## Descrição do problema 
+### Descrição do problema 
 
 Balanceamento de carga é muito importante em ambientes Cloud. Estamos sempre tentando minimizar os custos para que possamos manter o número de servidores o menor possível. 
 Em contrapartida a capacidade e performance aumenta quando adicionamos mais servidores. Em nosso ambiente de simulação, em cada tick  (unidade básica de tempo da simulação), 
