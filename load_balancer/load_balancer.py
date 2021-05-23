@@ -180,9 +180,3 @@ class Task:
             bool: If the task still have _t_task left return True else False.
         """
         return self._t_task > 0
-
-
-if __name__ == "__main__":
-    report_creator = ReportCreator("input.txt", "output.txt")
-    t_task, u_max, file_lines = report_creator.read_input_file()
-    report_creator.create_report(u_max, t_task, file_lines)
