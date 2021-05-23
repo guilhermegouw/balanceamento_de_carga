@@ -1,6 +1,34 @@
-# balanceamento_de_carga
+## Balanceamento de carga
 
-Problema 
+# Requisitos:
+
+- Python 3.9
+# Instruções para utilização (Linux/Mac):
+
+Abra seu terminal:
+
+- Navegue até o repositório onde desejar instalar o app, nele insira o seguinte comando:
+
+```console
+git clone https://github.com/guilhermegouw/balanceamento_de_carga.git
+```
+
+- Para rodar os testes:
+
+``` console
+cd load_balancer/
+python test_load_balancer.py
+```
+
+- Para criar o relatório (dentro do diretório load_balancer insira o seguinte comando):
+
+``` console
+python main.py
+```
+O Relatório será criado dentro do diretório load_balancer/files com o nome de output.txt
+
+
+## Descrição do problema 
 
 Balanceamento de carga é muito importante em ambientes Cloud. Estamos sempre tentando minimizar os custos para que possamos manter o número de servidores o menor possível. 
 Em contrapartida a capacidade e performance aumenta quando adicionamos mais servidores. Em nosso ambiente de simulação, em cada tick  (unidade básica de tempo da simulação), 
@@ -30,7 +58,7 @@ Limites
 Exemplo 
 
 input.txt
-
+```
 4
 2
 1
@@ -39,10 +67,10 @@ input.txt
 1
 0
 1
-
+```
 
 output.txt
-
+```
 1
 2, 2
 2, 2
@@ -54,7 +82,7 @@ output.txt
 1
 0
 15
-
+```
 
 Detalhamento do exemplo 
 
