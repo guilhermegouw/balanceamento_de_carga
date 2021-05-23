@@ -39,7 +39,7 @@ class ReportCreator:
         with open(self._output, "a+") as f:
             total_cost = 0
             for line in new_tasks:
-                load_balancer.serve_users(line)
+                load_balancer.serve_tasks(line)
                 f.write(f"{load_balancer}\n")
                 total_cost += len(str(load_balancer).split(","))
                 load_balancer.tic()
@@ -52,15 +52,29 @@ class ReportCreator:
 
 
 class LoadBalancer:
+    """
+    Manages the loads of tasks by server
+    """
+
     def __init__(self, u_max: int, t_task: int) -> None:
         self.u_max = u_max
         self.t_task = t_task
         self._servers = []
 
     def __str__(self) -> str:
+        """String representation of the loads of tasks by server
+
+        Returns:
+            str: represents each server separated by "," each number is the number of tasks by server.
+        """
         return ",".join(str(s) for s in self._servers)
 
-    def serve_users(self, num_of_tasks: int):
+    def serve_tasks(self, num_of_tasks: int):
+        """Add a task to a server if possible, if not add a new server e add to it that task.
+
+        Args:
+            num_of_tasks (int): number of task to add.
+        """
         for server in self._servers:
             for i in range(num_of_tasks):
                 added_task = server.add_task()
@@ -70,14 +84,22 @@ class LoadBalancer:
                     break
         if num_of_tasks > 0:
             self._servers.append(Server(u_max=self.u_max, t_task=self.t_task))
-            self.serve_users(num_of_tasks)
+            self.serve_tasks(num_of_tasks)
 
     def tic(self):
+        """
+        Apply tic to each active server and update _servers.
+        """
         for server in self._servers:
             server.tic()
         self._servers = list(filter(lambda server: server.has_tasks(), self._servers))
 
-    def has_active_server(self):
+    def has_active_server(self) -> bool:
+        """Verify if there is an active server.
+
+        Returns:
+            bool: True if there is at least an active server, False if there is not.
+        """
         return len(self._servers) > 0
 
 
