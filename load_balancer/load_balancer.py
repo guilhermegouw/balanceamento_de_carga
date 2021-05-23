@@ -1,3 +1,56 @@
+from typing import List, Tuple
+
+
+class ReportCreator:
+    """
+    Class that process an input file with data for a case scenario of
+    load management and creates a report file with the behavior of the
+    loads for that case scenario.
+    """
+
+    def __init__(self, input_filename: str, output_filename: str) -> None:
+        self._input = input_filename
+        self._output = output_filename
+
+    def read_input_file(self) -> Tuple[int, int, List[int]]:
+        """
+        Read an input file and return the data necessary to create the report.
+
+        Returns:
+            Tuple[int, int, List[int]]: duration of tic by task, max users by server, list of new tasks by tic.
+        """
+
+        with open(self._input, "r") as file:
+            file_lines = file.readlines()
+            t_task = int(file_lines[0])
+            u_max = int(file_lines[1])
+            new_tasks = [int(line) for line in file_lines[2:]]
+        return t_task, u_max, new_tasks
+
+    def create_report(self, u_max: int, t_task: int, new_tasks: List[int]):
+        """Create a .txt file with a report with the loads behavior
+
+        Args:
+            u_max (int): represents the max number of users a server can afford
+            t_task (int): quantity of tics consumed by each task.
+            new_tasks (List[int]): list containing the number of tasks added by tic.
+        """
+        load_balancer = LoadBalancer(u_max=u_max, t_task=t_task)
+        with open(self._output, "a+") as f:
+            total_cost = 0
+            for line in new_tasks:
+                load_balancer.serve_users(line)
+                f.write(f"{load_balancer}\n")
+                total_cost += len(str(load_balancer).split(","))
+                load_balancer.tic()
+            while load_balancer.has_active_server():
+                f.write(f"{load_balancer}\n")
+                total_cost += len(str(load_balancer).split(","))
+                load_balancer.tic()
+            f.write("0\n")
+            f.write(str(total_cost))
+
+
 class LoadBalancer:
     def __init__(self, u_max: int, t_task: int) -> None:
         self.u_max = u_max
@@ -66,23 +119,6 @@ class Task:
 
 
 if __name__ == "__main__":
-    with open("input.txt", "r") as file:
-        file_lines = file.readlines()
-        t_task = int(file_lines[0])
-        u_max = int(file_lines[1])
-        file_lines = [int(line) for line in file_lines[2:]]
-
-    load_balancer = LoadBalancer(u_max=u_max, t_task=t_task)
-    with open("output.txt", "a+") as f:
-        total_cost = 0
-        for line in file_lines:
-            load_balancer.serve_users(line)
-            f.write(f"{load_balancer}\n")
-            total_cost += len(str(load_balancer).split(","))
-            load_balancer.tic()
-        while load_balancer.has_active_server():
-            f.write(f"{load_balancer}\n")
-            total_cost += len(str(load_balancer).split(","))
-            load_balancer.tic()
-        f.write("0\n")
-        f.write(str(total_cost))
+    report_creator = ReportCreator("input.txt", "output.txt")
+    t_task, u_max, file_lines = report_creator.read_input_file()
+    report_creator.create_report(u_max, t_task, file_lines)
