@@ -104,15 +104,29 @@ class LoadBalancer:
 
 
 class Server:
+    """
+    Emulates a server.
+    """
+
     def __init__(self, u_max: int, t_task: int) -> None:
         self._u_max = u_max
         self.t_task = t_task
         self._tasks = []
 
     def has_tasks(self) -> bool:
+        """Check if there at least an active task.
+
+        Returns:
+            bool: if there is an active task in the server return True else False.
+        """
         return len(self._tasks) > 0
 
     def add_task(self) -> bool:
+        """Add a task to a server.
+
+        Returns:
+            bool: if server reach it's max capacity return False else True.
+        """
         if len(self._tasks) >= self._u_max:
             return False
         else:
@@ -120,23 +134,51 @@ class Server:
             return True
 
     def tic(self):
+        """
+        Apply tic to each task in the server and filter to keep only active tasks.
+        """
         for task in self._tasks:
             task.tic()
         self._tasks = [t for t in self._tasks if t.is_active()]
 
     def __str__(self) -> str:
+        """String representation of the number of active task in the server.
+
+        Returns:
+            str: number of tasks in the server.
+        """
         return str(len(self._tasks))
 
 
 class Task:
+    """
+    Represents a task in the server.
+    """
+
     def __init__(self, t_task: int) -> None:
+        """Initialization of the Task class.
+
+        Args:
+            t_task (int): _t_task represents the quantity of tics left until
+            the end of the task.
+        """
         self._t_task = t_task
 
     def tic(self) -> int:
+        """Subtract _t_task by 1.
+
+        Returns:
+            int: _t_task_updated.
+        """
         self._t_task -= 1
         return self._t_task
 
     def is_active(self) -> bool:
+        """Check if a task still active.
+
+        Returns:
+            bool: If the task still have _t_task left return True else False.
+        """
         return self._t_task > 0
 
 
